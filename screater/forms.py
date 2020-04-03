@@ -1,6 +1,9 @@
 from django import forms
 from django.forms import inlineformset_factory
 from qwestion.models import Survey, Qwestion, Answer
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Submit
+
 
 class SurveyCreateForm(forms.ModelForm):
     title = forms.CharField(widget=forms.Textarea)
@@ -9,8 +12,12 @@ class SurveyCreateForm(forms.ModelForm):
         fields = ['title', 'timedelta', 'public']
 
     def __init__(self, *args, **kwargs):
+
+        self.helper = FormHelper()
+        self.helper.form_method = 'post'
         self.author = kwargs.pop('user')
         super(SurveyCreateForm, self).__init__(*args, **kwargs)
+
 
 
 class AddSurveyForm(forms.ModelForm):

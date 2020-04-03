@@ -1,9 +1,10 @@
 {%extends 'base.html'%}
 {%block content%}
+{% load crispy_forms_tags %}
     <h3>Добавление вопроса</h3>
     <form action="" method="post" enctype="multipart/form-data">
     {% csrf_token %}
-{{ form.as_p }}
+{{ form |crispy }}
  <br>
             <fieldset>
                 <legend></legend>
@@ -14,10 +15,10 @@
                     <div class="inline {{ qwestion_form.prefix }}">
                         {{ form.title.errors }}
                         {{ form.title.label_tag }}
-                        {{ form.title }}
+                        {{ form.title |as_crispy_field }}
                         {{ form.truefild.errors }}
                         {{ form.truefild.label_tag }}
-                        {{ form.truefild }}
+                        {{ form.truefild |as_crispy_field }}
 
                     </div>
 

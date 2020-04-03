@@ -95,7 +95,7 @@ class SurveyUpdateView(UpdateView):
 
 class QwestionCreate(CreateView):
     """
-    пока не работает
+    пока  работает
     """""
     model = Qwestion
     template_name = 'screater/add_qwestion.html'
