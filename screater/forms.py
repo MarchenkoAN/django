@@ -22,8 +22,8 @@ class AddSurveyForm(forms.ModelForm):
         fields = ['title', 'timedelta', 'public']
 
 
-QwestionFormset = inlineformset_factory(Survey, Qwestion, fields='__all__')
-AnswerFormset = inlineformset_factory(Qwestion, Answer, fields='__all__')
+# QwestionFormset = inlineformset_factory(Survey, Qwestion, fields='__all__')
+AnswerFormset = inlineformset_factory(Qwestion, Answer, fields='__all__', extra=4)
 
 
 class QwestionForm(forms.ModelForm):

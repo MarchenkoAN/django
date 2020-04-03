@@ -1,6 +1,5 @@
 asgiref==3.2.5
 beautifulsoup4==4.8.2
-django-multi-form-view==2.0.1
 confusable-homoglyphs==3.2.0
 cycler==0.10.0
 Django==3.0.4

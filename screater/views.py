@@ -19,7 +19,7 @@ from .filter import QwestionTitleFilter, AnswerQwestionFilter
 
 class SurveyListView(ListView):
     """
-
+    Список подготовленных тестов
     """
 
     model = Survey
@@ -36,6 +36,9 @@ class SurveyListView(ListView):
 
 
 class SurveyCreateView(CreateView):
+    """
+    Создание теста
+    """
     model = Survey
     form_class = SurveyCreateForm
     template_name = 'screater/survey_form.html'
@@ -50,6 +53,11 @@ class SurveyCreateView(CreateView):
         return super(SurveyCreateView, self).dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
+        """
+        проверяем в поле author залогиненого пользователя
+        :param form:
+        :return:
+        """
         self.object = form.save(commit=False)
         self.object.author = self.request.user
         self.object.save()
@@ -68,7 +76,7 @@ class SurveyCreateView(CreateView):
 
 class SurveyUpdateView(UpdateView):
     """
-    Обновляем
+    Обновляем тест
     """
     model = Survey
     form_class = AddSurveyForm
@@ -85,82 +93,77 @@ class SurveyUpdateView(UpdateView):
         return super(SurveyUpdateView, self).dispatch(request, *args, **kwargs)
 
 
-# class SurveyCreate(CreateView):
-#     """
-#     пока не работает
-#     """""
-#     model = Survey
-#     template_name = 'screater/add_survey.html'
-#     form_class = AddSurveyForm
-#     success_url = reverse_lazy('screater:survey-list')
-#
-#
-#
-#     def get(self, request, *args, **kwargs):
-#          """
-#          Get request
-#          :param request:
-#          :param args:
-#          :param kwargs:
-#          :return:
-#          """
-#          self.object = None
-#          form_class = self.get_form_class()
-#          form = self.get_form(form_class)
-#          qwestion_form = QwestionFormset()
-#          answer_form = AnswerFormset()
-#          return self.render_to_response(self.get_context_data(form=form, qwestion_form=qwestion_form,
-#                                                               answer_form=answer_form))
-#
-#     @method_decorator(login_required)
-#     def dispatch(self, request, *args, **kwargs):
-#         """
-#         Декорируем диспетчер функцией login_required, чтобы запретить просмотр отображения неавторизованными
-#         пользователями
-#         """
-#         return super(SurveyCreate, self).dispatch(request, *args, **kwargs)
-#
-#     def post(self, request, *args, **kwargs):
-#           """
-#           Handles POST requests, instantiating a form instance and its inline
-#           formsets with the passed POST variables and then checking them for
-#           validity.
-#           """
-#           self.object = None
-#           form_class = self.get_form_class()
-#           form = self.get_form(form_class)
-#           qwestion_form = QwestionFormset(self.request.POST)
-#           answer_form = AnswerFormset(self.request.POST)
-#           if (form.is_valid() and qwestion_form.is_valid() and answer_form.is_valid()):
-#               return  self.form_valid(form, qwestion_form, answer_form)
-#           else:
-#               return self.form_invalid(form, qwestion_form, answer_form)
-#
-#     def form_valid(self, form, qwestion_form, answer_form):
-#           """
-#           Called if all forms are valid. Creates a Recipe instance along with
-#           associated Ingredients and Instructions and then redirects to a
-#           success page.
-#           """
-#           form.author = self.request.user
-#           self.object = form.save()
-#           qwestion_form.instance = self.object
-#           self.object = qwestion_form.save()
-#           answer_form.instance = self.object
-#           answer_form.save()
-#
-#           return HttpResponseRedirect(self.get_success_url())
-#
-#     def form_invalid(self, form, qwestion_form, answer_form):
-#           """
-#           Called if a form is invalid. Re-renders the context data with the
-#           data-filled forms and errors.
-#           """
-#           return self.render_to_response(
-#               self.get_context_data(form=form,
-#                                     company_form=company_form,
-#                                     answer_form=answer_form))
-#
+class QwestionCreate(CreateView):
+    """
+    пока не работает
+    """""
+    model = Qwestion
+    template_name = 'screater/add_qwestion.html'
+    form_class = QwestionCreateForm
+    success_url = reverse_lazy('screater:qwestion-list')
+
+
+
+    def get(self, request, *args, **kwargs):
+         """
+         Get request
+         :param request:
+         :param args:
+         :param kwargs:
+         :return:
+         """
+         self.object = None
+         form_class = self.get_form_class()
+         form = self.get_form(form_class)
+         answer_form = AnswerFormset()
+         return self.render_to_response(self.get_context_data(form=form,
+                                                              answer_form=answer_form))
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        """
+        Декорируем диспетчер функцией login_required, чтобы запретить просмотр отображения неавторизованными
+        пользователями
+        """
+        return super(QwestionCreate, self).dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+          """
+          Handles POST requests, instantiating a form instance and its inline
+          formsets with the passed POST variables and then checking them for
+          validity.
+          """
+          self.object = None
+          form_class = self.get_form_class()
+          form = self.get_form(form_class)
+          answer_form = AnswerFormset(self.request.POST)
+          if (form.is_valid() and answer_form.is_valid()):
+              return  self.form_valid(form,  answer_form)
+          else:
+              return self.form_invalid(form,  answer_form)
+
+    def form_valid(self, form,  answer_form):
+          """
+          Called if all forms are valid. Creates a Recipe instance along with
+          associated Ingredients and Instructions and then redirects to a
+          success page.
+          """
+          form.author = self.request.user
+          self.object = form.save()
+          answer_form.instance = self.object
+          answer_form.save()
+
+          return HttpResponseRedirect(self.get_success_url())
+
+    def form_invalid(self, form,  answer_form):
+          """
+          Called if a form is invalid. Re-renders the context data with the
+          data-filled forms and errors.
+          """
+          return self.render_to_response(
+              self.get_context_data(form=form,
+                                    answer_form=answer_form))
+
 
 
 class QwestionListView(FilterView):
