@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'qwestion.apps.QwestionConfig',
     'reports.apps.ReportsConfig',
     'screater.apps.ScreaterConfig',
+    'storeroom.apps.StoreroomConfig',
     'django_filters',
     'crispy_forms',
 

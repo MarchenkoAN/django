@@ -22,6 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(('qwestion.urls', 'qwestion'), namespace='qwestion')),
     path('report/', include(('reports.urls', 'reports'), namespace='reports')),
+    path('store/', include(('storeroom.urls', 'storeroom'), namespace='storeroom')),
     path('manager/', include(('screater.urls', 'screater'), namespace='screater')),
     path('accounts/login/', LoginView.as_view(), name='login'),
     path('accounts/logout/', LogoutView.as_view(next_page='/'), name='logout'),
