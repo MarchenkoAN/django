@@ -58,8 +58,8 @@ class Rating(models.Model):
     survey = models.ForeignKey(Survey,on_delete=models.PROTECT, verbose_name='Наменование теста')
     sessionid = models.CharField(max_length=200, db_index=True)
     qwestion = models.ForeignKey(Qwestion, on_delete=models.PROTECT, verbose_name='Вопрос')
-    answer = models.CharField(max_length=10, verbose_name='Список номеров ответов пользователя')
-    true_answer = models.CharField(max_length=10, verbose_name='Список номеров правильных ответов')
+    answer = models.CharField(max_length=100, verbose_name='Список номеров ответов пользователя')
+    true_answer = models.CharField(max_length=100, verbose_name='Список номеров правильных ответов')
     result = models.BooleanField(default=False, verbose_name='Результат')
     created = models.DateTimeField(auto_now_add=True,verbose_name='Дата ответа')
 
